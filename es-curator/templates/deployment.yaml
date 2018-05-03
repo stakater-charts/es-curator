@@ -1,0 +1,99 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}
+  annotations:
+    configmap.fabric8.io/update-on-change: "{{ template "name" . }}"
+  labels:
+{{ include "labels.stakater" . | indent 4 }}
+{{ include "labels.chart" . | indent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+{{ include "labels.selector" . | indent 8 }}
+      annotations:
+        configmap.fabric8.io/update-on-change: "{{ template "name" . }}"
+    spec:
+      containers:
+      - name: {{ template "name" . }}
+        image: "{{ .Values.esCurator.image.name }}:{{ .Values.esCurator.image.tag }}"
+        imagePullPolicy: {{ .Values.esCurator.image.pullPolicy }}
+        {{- with .Values.esCurator.deployment.resources }}
+        resources:
+          {{- with .limits }}
+          limits:
+            {{- with .cpu }}
+            cpu: {{ . }}
+            {{- end }}
+            {{- with .memory }}
+            memory: {{ . }}
+            {{- end }}
+          {{- end }}
+          {{- with .requests }}
+          requests:
+            {{- with .cpu }}
+            cpu: {{ . }}
+            {{- end }}
+            {{- with .memory }}
+            memory: {{ . }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+        env:
+        - name: CRON_SCHEDULE
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: cron-schedule
+        - name: ELASTICSEARCH_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: es-host
+        - name: ELASTICSEARCH_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: es-port
+        - name: SNAPSHOT_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: snapshot-name
+        - name: BUCKET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: bucket-name
+        - name: BUCKET_BASE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: bucket-base-path
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: aws-region
+        - name: TIME_UNIT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: time-unit
+        - name: OLDER_THAN
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: older-than
+        - name: LOGLEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "name" . }}
+              key: loglevel

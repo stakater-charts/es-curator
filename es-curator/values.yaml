@@ -1,0 +1,29 @@
+esCurator:
+  labels:
+    group: com.stakater.provider
+    provider: stakater
+    version: 3.5.1
+  namespace: dev
+  image:
+    name: stakater/elasticsearch-curator
+    tag: "3.5.1"
+    pullPolicy: Always
+  deployment: {}
+    #resources:
+    #  limits:
+    #    cpu: 100m
+    #    memory: 100Mi
+    #  requests:
+    #    cpu: 100m
+    #    memory: 100Mi
+  config:
+    cronSchedule: 0 0 * * *
+    esHost: dummy
+    esPort: 8080
+    snapshotName: dummy-es
+    bucketName: 123465789-dummy-state-store
+    bucketBasePath: /dummy.com/es-indices-snapshots/
+    awsRegion: dummy
+    timeUnit: days
+    olderThan: 30
+    loglevel: INFO
