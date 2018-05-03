@@ -25,13 +25,27 @@ spec:
       - name: {{ template "name" . }}
         image: "{{ .Values.esCurator.image.name }}:{{ .Values.esCurator.image.tag }}"
         imagePullPolicy: {{ .Values.esCurator.image.pullPolicy }}
+        {{- with .Values.esCurator.deployment.resources }}
         resources:
+          {{- with .limits }}
           limits:
-            cpu: {{ .Values.esCurator.resources.limits.cpu }}
-            memory: {{ .Values.esCurator.resources.limits.memory }}
+            {{- with .cpu }}
+            cpu: {{ . }}
+            {{- end }}
+            {{- with .memory }}
+            memory: {{ . }}
+            {{- end }}
+          {{- end }}
+          {{- with .requests }}
           requests:
-            cpu: {{ .Values.esCurator.resources.requests.cpu }}
-            memory: {{ .Values.esCurator.resources.requests.memory }}
+            {{- with .cpu }}
+            cpu: {{ . }}
+            {{- end }}
+            {{- with .memory }}
+            memory: {{ . }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
         env:
         - name: CRON_SCHEDULE
           valueFrom:

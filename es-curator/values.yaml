@@ -8,19 +8,20 @@ esCurator:
     name: stakater/elasticsearch-curator
     tag: "3.5.1"
     pullPolicy: Always
-  resources:
-    limits:
-      cpu: 100m
-      memory: 100Mi
-    requests:
-      cpu: 100m
-      memory: 100Mi
+  deployment: {}
+    #resources:
+    #  limits:
+    #    cpu: 100m
+    #    memory: 100Mi
+    #  requests:
+    #    cpu: 100m
+    #    memory: 100Mi
   config:
     cronSchedule: 0 0 * * *
     esHost: dummy
     esPort: 8080
     snapshotName: dummy-es
-    bucketName: 449074299682-dummy-state-store
+    bucketName: 123465789-dummy-state-store
     bucketBasePath: /dummy.com/es-indices-snapshots/
     awsRegion: dummy
     timeUnit: days
