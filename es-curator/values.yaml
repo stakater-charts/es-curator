@@ -1,6 +1,6 @@
 esCurator:
   labels:
-    group: com.stakater.provider
+    group: com.stakater.platform
     provider: stakater
     version: 3.5.1
   namespace: dev
