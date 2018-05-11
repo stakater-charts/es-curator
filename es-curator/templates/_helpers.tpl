@@ -23,7 +23,7 @@ provider: {{ .Values.esCurator.labels.provider }}
 
 {{- define "labels.stakater" -}}
 {{ template "labels.selector" . }}
-version: {{ .Values.esCurator.labels.version | quote }}
+version: "{{ .Values.esCurator.labels.version }}"
 {{- end -}}
 
 {{- define "labels.chart" -}}
