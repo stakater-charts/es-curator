@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "name" . }}
   annotations:
-    configmap.fabric8.io/update-on-change: "{{ template "name" . }}"
+    configmap.reloader.stakater.com/reload: "{{ template "name" . }}"
   labels:
 {{ include "labels.stakater" . | indent 4 }}
 {{ include "labels.chart" . | indent 4 }}
@@ -18,8 +18,6 @@ spec:
     metadata:
       labels:
 {{ include "labels.selector" . | indent 8 }}
-      annotations:
-        configmap.fabric8.io/update-on-change: "{{ template "name" . }}"
     spec:
       containers:
       - name: {{ template "name" . }}
