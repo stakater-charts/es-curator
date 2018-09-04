@@ -5,7 +5,7 @@ version: 1.0.1
 keywords:
   - es-curator
   - kubernetes
-home: https://github.com/stakater/chart-es-curator
+home: https://github.com/stakater-charts/es-curator
 maintainers:
 - name: Stakater
   email: stakater@aurorasolutions.io
